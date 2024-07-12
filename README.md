@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# File Management System
 
-## Getting Started
+This project is a sophisticated file management system built using **Next.js** and **Material-UI (MUI)**.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Upload Files:** Upload files with preview and delete options.
+- **Rename Files:** Rename files directly in the interface.
+- **Responsive Design:** Responsive design for various screen sizes.
+- **Search Functionality:** Filter through uploaded files using the search feature.
+- **Batch Deletion:** Select multiple files for batch deletion.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Frontend:** React.js, Next.js, Material-UI (MUI)
+- **State Management:** React Hooks (useState, useEffect)
+- **Storage:** Local Storage (for demo purposes)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Setup Instructions
 
-## Learn More
+1. **Clone the repository:**
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    git clone https://github.com/your-username/file-management-system.git
+    cd file-management-system
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ```bash
+    yarn
+    ```
 
-## Deploy on Vercel
+3. **Run the development server:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    yarn dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. **Open [http://localhost:3000](http://localhost:3000) to view it in the browser.**
+
+## Usage
+
+1. **Upload Files:** Click on the file upload button, select a file from your local system, and click "Upload".
+2. **Preview File:** Click on a file name to preview its content (for text files and images).
+3. **Rename File:** Click on the "Rename" button next to a file, enter a new name, and click "Save".
+4. **Delete File:** Click on the "Delete" button next to a file to remove it from the list.
+5. **Search Files:** Use the search input at the top to filter files by name.
+6. **Select Multiple Files:** Check the boxes next to multiple files and click "Delete Selected" to remove them all at once.
+
