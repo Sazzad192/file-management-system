@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { Container, Box, Typography, AppBar, Toolbar, CssBaseline } from '@mui/material';
 import UploadForm from '../components/UploadForm';
-import FileList from '../components/FileList';
+import FileList from '@/components/fileList/FileList';
 
 export default function Home() {
   const [update, setUpdate] = useState(false);
