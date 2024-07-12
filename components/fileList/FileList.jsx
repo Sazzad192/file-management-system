@@ -6,7 +6,6 @@ import {
   Checkbox,
   FormControlLabel,
   Button,
-  ListItemIcon,
 } from "@mui/material";
 import FileListItem from "./FileListItem";
 import FileListHeader from "./FileListHeader";
@@ -117,12 +116,17 @@ const FileList = () => {
     }
   };
 
+  const handleEditClick = (filename) => {
+    setEditingFile(filename);
+    if (filename) {
+      const file = files.find((file) => file.name === filename);
+      setNewFileName(file.name);
+    }
+  };
+
   return (
     <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
-      <FileListHeader
-        searchTerm={searchTerm}
-        onSearchChange={handleSearch}
-      />
+      <FileListHeader searchTerm={searchTerm} onSearchChange={handleSearch} />
 
       {filteredFiles.length === 0 ? (
         <FileListEmpty />
@@ -157,9 +161,12 @@ const FileList = () => {
                 file={file}
                 editingFile={editingFile}
                 onFileSelect={handleFileSelect}
+                onEditClick={handleEditClick}
                 onFileRename={handleRename}
                 onDelete={handleDelete}
                 onPreviewOpen={handlePreviewOpen}
+                newFileName={newFileName}
+                setNewFileName={setNewFileName}
               />
             ))}
           </List>
