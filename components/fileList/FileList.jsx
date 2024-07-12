@@ -21,8 +21,7 @@ import toast from "react-hot-toast";
 const FileList = () => {
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
-  const [editingFile, setEditingFile] = useState(null);
-  const [newFileName, setNewFileName] = useState("");
+  const [editingFile, setEditingFile] = useState(null); // Track which file is being edited
   const [previewFile, setPreviewFile] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,9 +53,6 @@ const FileList = () => {
     const updatedFiles = getFilesFromLocalStorage();
     setFiles(updatedFiles);
     setFilteredFiles(updatedFiles);
-    setSelectedFiles((prevSelected) =>
-      prevSelected.filter((name) => name !== filename)
-    );
     toast.success("File deleted successfully!");
   };
 
@@ -70,18 +66,17 @@ const FileList = () => {
     toast.success("Selected files deleted successfully!");
   };
 
-  const handleRename = () => {
-    if (newFileName.trim() === "") {
+  const handleRename = (oldName, newName) => {
+    if (newName.trim() === "") {
       toast.error("New file name cannot be empty.");
       return;
     }
 
-    renameFileInLocalStorage(editingFile, newFileName);
+    renameFileInLocalStorage(oldName, newName);
     const updatedFiles = getFilesFromLocalStorage();
     setFiles(updatedFiles);
     setFilteredFiles(updatedFiles);
     setEditingFile(null);
-    setNewFileName("");
     toast.success("File renamed successfully!");
   };
 
@@ -99,8 +94,9 @@ const FileList = () => {
     const checked = event.target.checked;
     setSelectAll(checked);
 
+    const allFileNames = filteredFiles.map((file) => file.name);
+
     if (checked) {
-      const allFileNames = filteredFiles.map((file) => file.name);
       setSelectedFiles(allFileNames);
     } else {
       setSelectedFiles([]);
@@ -116,8 +112,15 @@ const FileList = () => {
       setSelectedFiles((prevSelected) =>
         prevSelected.filter((name) => name !== filename)
       );
-      setSelectAll(false);
     }
+  };
+
+  const handleEditStart = (filename) => {
+    setEditingFile(filename); // Set the editingFile state to the filename being edited
+  };
+
+  const handleEditCancel = () => {
+    setEditingFile(null); // Reset editingFile state when edit is cancelled
   };
 
   return (
@@ -155,15 +158,14 @@ const FileList = () => {
               <FileListItem
                 key={file.name}
                 file={file}
-                editingFile={editingFile}
-                setEditingFile={setEditingFile}
-                newFileName={newFileName}
-                setNewFileName={setNewFileName}
+                isSelected={selectedFiles.includes(file.name)}
+                isEditing={editingFile === file.name} // Pass isEditing prop
                 onFileSelect={handleFileSelect}
-                onFileRename={handleRename}
+                onEditStart={handleEditStart}
+                onEditCancel={handleEditCancel}
+                onEditSave={handleRename}
                 onDelete={handleDelete}
                 onPreviewOpen={handlePreviewOpen}
-                selectedFiles={selectedFiles}
               />
             ))}
           </List>

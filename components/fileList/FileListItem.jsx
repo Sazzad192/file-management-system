@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ListItem,
   ListItemText,
@@ -12,18 +13,24 @@ import { Description, Edit, Delete } from "@mui/icons-material";
 
 const FileListItem = ({
   file,
-  editingFile,
-  setEditingFile,
-  newFileName,
-  setNewFileName,
+  isSelected,
+  isEditing,
   onFileSelect,
-  onFileRename,
+  onEditStart,
+  onEditCancel,
+  onEditSave,
   onDelete,
   onPreviewOpen,
-  selectedFiles,
 }) => {
-  const isSelected = selectedFiles.includes(file.name);
-  const isEditing = editingFile === file.name;
+  const [newFileName, setNewFileName] = useState(file.name);
+
+  const handleInputChange = (event) => {
+    setNewFileName(event.target.value);
+  };
+
+  const handleSaveClick = () => {
+    onEditSave(file.name, newFileName);
+  };
 
   return (
     <ListItem
@@ -42,20 +49,20 @@ const FileListItem = ({
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <TextField
             value={newFileName}
-            onChange={(e) => setNewFileName(e.target.value)}
-            label="New File Name"
+            onChange={handleInputChange}
+            autoFocus
           />
           <Button
             variant="contained"
             color="primary"
-            onClick={onFileRename}
+            onClick={handleSaveClick}
           >
             Save
           </Button>
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => setEditingFile(null)}
+            onClick={onEditCancel}
           >
             Cancel
           </Button>
@@ -71,7 +78,7 @@ const FileListItem = ({
             sx={{ cursor: "pointer" }}
           />
           <Box sx={{ display: "flex", gap: 2 }}>
-            <IconButton color="primary" onClick={() => setEditingFile(file.name)}>
+            <IconButton color="primary" onClick={() => onEditStart(file.name)}>
               <Edit />
             </IconButton>
             <IconButton color="secondary" onClick={() => onDelete(file.name)}>
