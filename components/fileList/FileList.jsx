@@ -54,6 +54,9 @@ const FileList = () => {
     const updatedFiles = getFilesFromLocalStorage();
     setFiles(updatedFiles);
     setFilteredFiles(updatedFiles);
+    setSelectedFiles((prevSelected) =>
+      prevSelected.filter((name) => name !== filename)
+    );
     toast.success("File deleted successfully!");
   };
 
@@ -113,14 +116,7 @@ const FileList = () => {
       setSelectedFiles((prevSelected) =>
         prevSelected.filter((name) => name !== filename)
       );
-    }
-  };
-
-  const handleEditClick = (filename) => {
-    setEditingFile(filename);
-    if (filename) {
-      const file = files.find((file) => file.name === filename);
-      setNewFileName(file.name);
+      setSelectAll(false);
     }
   };
 
@@ -160,13 +156,14 @@ const FileList = () => {
                 key={file.name}
                 file={file}
                 editingFile={editingFile}
+                setEditingFile={setEditingFile}
+                newFileName={newFileName}
+                setNewFileName={setNewFileName}
                 onFileSelect={handleFileSelect}
-                onEditClick={handleEditClick}
                 onFileRename={handleRename}
                 onDelete={handleDelete}
                 onPreviewOpen={handlePreviewOpen}
-                newFileName={newFileName}
-                setNewFileName={setNewFileName}
+                selectedFiles={selectedFiles}
               />
             ))}
           </List>

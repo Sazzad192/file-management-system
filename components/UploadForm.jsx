@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 export default function UploadForm({ onFileUpload }) {
   const [file, setFile] = useState(null);
+  const [inputKey, setInputKey] = useState(Date.now());
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -27,6 +28,7 @@ export default function UploadForm({ onFileUpload }) {
       saveFileToLocalStorage(fileData);
       onFileUpload();
       setFile(null); // Clear the file input after upload
+      setInputKey(Date.now()); // Reset the input field
       toast.success("File uploaded successfully!");
     };
     reader.onerror = () => {
@@ -37,6 +39,7 @@ export default function UploadForm({ onFileUpload }) {
 
   const handleRemoveFile = () => {
     setFile(null);
+    setInputKey(Date.now()); // Reset the input field
   };
 
   return (
@@ -47,6 +50,7 @@ export default function UploadForm({ onFileUpload }) {
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} sm={8}>
           <input
+            key={inputKey} // Use the key prop to reset the input field
             style={{ display: "none" }}
             id="file-input"
             type="file"
@@ -86,10 +90,7 @@ export default function UploadForm({ onFileUpload }) {
               Upload
             </Button>
             {file && (
-              <IconButton
-                color="secondary"
-                onClick={handleRemoveFile}
-              >
+              <IconButton color="secondary" onClick={handleRemoveFile}>
                 <Delete />
               </IconButton>
             )}
